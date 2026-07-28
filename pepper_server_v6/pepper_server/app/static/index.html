@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pepper Clinical Infinity V6</title>
+<style>
+  :root{
+    --purple:#7c3aed; --purple2:#6d28d9; --purple3:#a78bfa;
+    --dark:#2d1b69; --bg:#f0edf8; --bg2:#e8e3f4;
+    --green:#059669; --red:#dc2626; --gold:#d97706; --teal:#0d9488;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif;}
+  body{background:linear-gradient(135deg,var(--bg),var(--bg2));min-height:100vh;color:var(--dark);}
+  .hidden{display:none!important;}
+  .nav{background:rgba(255,255,255,.95);border-bottom:1px solid rgba(139,92,246,.2);
+    padding:14px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
+  .logo{font-size:18px;font-weight:800;color:var(--dark);}
+  .btn{background:linear-gradient(135deg,var(--purple2),var(--purple));color:#fff;border:none;
+    border-radius:10px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;transition:.2s;}
+  .btn:hover{opacity:.9;transform:translateY(-1px);}
+  .btn:disabled{background:#9ca3af;cursor:not-allowed;}
+  .btn-ghost{background:rgba(139,92,246,.1);color:var(--purple);border:1.5px solid rgba(139,92,246,.35);}
+  .container{max-width:1100px;margin:0 auto;padding:24px;}
+  .card{background:#fff;border-radius:16px;border:1px solid rgba(139,92,246,.18);
+    padding:24px;box-shadow:0 2px 16px rgba(109,40,217,.06);}
+  .hero{text-align:center;padding:48px 20px;}
+  .hero h1{font-size:48px;font-weight:900;font-family:Georgia,serif;margin-bottom:12px;}
+  .hero h1 .grad{background:linear-gradient(135deg,var(--purple2),var(--purple3));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  .hero p{font-size:16px;color:rgba(76,29,149,.7);margin-bottom:28px;}
+  .feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:32px;}
+  .feature{background:#fff;border-radius:12px;border:1px solid rgba(139,92,246,.15);padding:16px;text-align:left;}
+  .feature .em{font-size:26px;}
+  .feature .t{font-weight:700;color:#4c1d95;font-size:13px;margin-top:6px;}
+  input{width:100%;background:#f8f5ff;border:1.5px solid rgba(139,92,246,.3);border-radius:10px;
+    padding:11px 14px;font-size:14px;color:var(--dark);margin-bottom:12px;}
+  input:focus{outline:none;border-color:var(--purple);}
+  label{font-size:13px;font-weight:600;color:#6b7280;display:block;margin-bottom:4px;}
+  .tab-row{display:flex;gap:8px;margin-bottom:18px;}
+  .tab{flex:1;background:rgba(139,92,246,.07);color:rgba(76,29,149,.55);border:none;border-radius:8px;
+    padding:10px;font-size:13px;font-weight:700;cursor:pointer;}
+  .tab.active{background:#fff;color:var(--purple);border:1px solid rgba(139,92,246,.3);}
+  .pin-box{background:linear-gradient(135deg,#ede9fe,#f5f0ff);border:2px solid var(--purple);
+    border-radius:14px;padding:24px;text-align:center;margin-top:12px;}
+  .pin{font-size:42px;font-weight:900;letter-spacing:10px;color:var(--purple);font-family:monospace;}
+  .err{color:var(--red);font-size:13px;background:rgba(220,38,38,.07);border:1px solid rgba(220,38,38,.2);
+    border-radius:8px;padding:8px 12px;margin-bottom:12px;}
+  .child-card{display:flex;align-items:center;gap:14px;margin-bottom:14px;}
+  .avatar{width:50px;height:50px;border-radius:25px;background:var(--purple);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;}
+  .skill-row{display:flex;align-items:center;gap:8px;margin:4px 0;font-size:12px;}
+  .skill-bar{flex:1;height:8px;background:rgba(139,92,246,.13);border-radius:4px;overflow:hidden;}
+  .skill-fill{height:100%;background:linear-gradient(90deg,var(--purple),var(--purple3));border-radius:4px;}
+  .row{display:flex;gap:10px;align-items:center;}
+  .spacer{flex:1;}
+  h2{font-size:22px;font-weight:800;color:var(--dark);margin-bottom:16px;}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--dark);
+    color:#fff;padding:12px 24px;border-radius:10px;font-size:14px;z-index:100;opacity:0;transition:.3s;}
+  .toast.show{opacity:1;}
+  .task-area{text-align:center;padding:32px;}
+  .task-em{font-size:80px;}
+  .task-instr{font-size:20px;font-weight:700;margin:16px 0;padding:16px;background:rgba(139,92,246,.08);
+    border-radius:14px;}
+  .opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(80px,1fr));gap:10px;margin:16px 0;}
+  .opt{aspect-ratio:1;border:2px solid rgba(139,92,246,.35);border-radius:12px;font-size:24px;
+    cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    background:rgba(139,92,246,.08);transition:.15s;}
+  .opt:hover{border-color:var(--purple);background:rgba(139,92,246,.2);}
+  .opt .ol{font-size:12px;font-weight:700;margin-top:4px;}
+  .stat-bar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:16px;}
+  .stat{background:rgba(139,92,246,.1);border-radius:8px;padding:6px 14px;font-size:13px;font-weight:700;color:var(--purple);}
+</style>
+</head>
+<body>
+<div class="nav">
+  <div class="logo">🤖 Pepper Clinical <b>V6</b></div>
+  <div id="navRight">
+    <button class="btn btn-ghost" onclick="show('login')">Login</button>
+    <button class="btn" onclick="show('trial')">Free Trial</button>
+  </div>
+</div>
+
+<!-- LANDING -->
+<div id="landing" class="container">
+  <div class="hero">
+    <div style="font-size:64px;">🧒</div>
+    <h1><span class="grad">Pepper Clinical</span><br>Infinity V6</h1>
+    <p>AI-powered autism therapy · Arabic & English · 100K+ adaptive tasks<br>
+       ABA · DTT · TEACCH · ESDM · PRT · Verbal Behavior</p>
+    <button class="btn" style="font-size:16px;padding:14px 32px;" onclick="show('trial')">
+      🆓 Start 15-Day Free Trial</button>
+    <div class="feature-grid">
+      <div class="feature"><div class="em">🦴</div><div class="t">Skeleton AI</div></div>
+      <div class="feature"><div class="em">😊</div><div class="t">Emotion Detection</div></div>
+      <div class="feature"><div class="em">🖐️</div><div class="t">Finger Counting</div></div>
+      <div class="feature"><div class="em">🎯</div><div class="t">100K+ Tasks</div></div>
+      <div class="feature"><div class="em">🃏</div><div class="t">PECS Board</div></div>
+      <div class="feature"><div class="em">🌈</div><div class="t">Mood Board</div></div>
+      <div class="feature"><div class="em">🔒</div><div class="t">Secure & Private</div></div>
+      <div class="feature"><div class="em">🌐</div><div class="t">Bilingual</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- AUTH -->
+<div id="auth" class="container hidden" style="max-width:460px;">
+  <div class="card">
+    <div style="text-align:center;font-size:40px;">🤖</div>
+    <h2 style="text-align:center;">Pepper Clinical V6</h2>
+    <div class="tab-row">
+      <button class="tab active" id="tabTrial" onclick="setTab('trial')">🆓 Free Trial</button>
+      <button class="tab" id="tabLogin" onclick="setTab('login')">🔑 Login</button>
+    </div>
+    <div id="authErr" class="err hidden"></div>
+
+    <div id="trialForm">
+      <label>Your full name</label><input id="tName" placeholder="Full name">
+      <label>Email address</label><input id="tEmail" type="email" placeholder="you@example.com">
+      <label>Child's name</label><input id="tChild" placeholder="Child's name">
+      <label>Child's age</label><input id="tAge" type="number" value="6" min="2" max="18">
+      <button class="btn" style="width:100%;" id="trialBtn" onclick="doTrial()">🚀 Start Free Trial</button>
+      <div id="pinBox" class="pin-box hidden">
+        <div style="font-size:13px;color:#6b7280;">Your PIN — save it safely!</div>
+        <div class="pin" id="pinDisplay">------</div>
+        <button class="btn" style="width:100%;margin-top:8px;" onclick="enterApp()">🚀 Enter App</button>
+      </div>
+    </div>
+
+    <div id="loginForm" class="hidden">
+      <label>Email address</label><input id="lEmail" type="email" placeholder="you@example.com">
+      <label>PIN (6 digits)</label><input id="lPin" type="password" maxlength="6" placeholder="••••••">
+      <button class="btn" style="width:100%;" onclick="doLogin()">🔑 Login</button>
+    </div>
+    <button class="btn btn-ghost" style="width:100%;margin-top:12px;" onclick="show('landing')">← Back</button>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dash" class="container hidden">
+  <div class="row" style="margin-bottom:18px;">
+    <h2 id="dashTitle">👶 Children</h2><div class="spacer"></div>
+    <button class="btn" onclick="addChild()">+ Add Child</button>
+    <button class="btn btn-ghost" onclick="logout()">Logout</button>
+  </div>
+  <div id="childList"></div>
+</div>
+
+<!-- SESSION -->
+<div id="session" class="container hidden">
+  <div class="card">
+    <div class="stat-bar">
+      <span class="stat" id="sScore">⭐ 0</span>
+      <span class="stat" id="sCorrect">✅ 0</span>
+      <span class="stat" id="sTask">📋 0</span>
+      <span class="stat" id="sTimer">⏱ 0:00</span>
+    </div>
+    <div class="task-area">
+      <div class="task-em" id="taskEm">🎯</div>
+      <div class="task-instr" id="taskInstr">Loading task...</div>
+      <div class="opts hidden" id="taskOpts"></div>
+      <div id="taskBtns">
+        <button class="btn" style="background:var(--green);" onclick="recordTask(true)">✅ Correct!</button>
+        <button class="btn btn-ghost" onclick="recordTask(false)">⏭ Skip</button>
+      </div>
+    </div>
+    <button class="btn btn-ghost" style="width:100%;" onclick="endSession()">⏹ End Session</button>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+const API = location.origin;
+let state = { token:null, refresh:null, user:null, children:[], authTab:'trial',
+              session:null, tasks:[], curTask:null, score:0, correct:0, total:0,
+              timer:0, timerInt:null, curChild:null };
+
+// ── Helpers ────────────────────────────────────────────────────
+function show(id){
+  ['landing','auth','dash','session'].forEach(s=>document.getElementById(s).classList.add('hidden'));
+  if(id==='trial'||id==='login'){ document.getElementById('auth').classList.remove('hidden'); setTab(id); }
+  else document.getElementById(id).classList.remove('hidden');
+}
+function setTab(t){
+  state.authTab=t;
+  document.getElementById('tabTrial').classList.toggle('active',t==='trial');
+  document.getElementById('tabLogin').classList.toggle('active',t==='login');
+  document.getElementById('trialForm').classList.toggle('hidden',t!=='trial');
+  document.getElementById('loginForm').classList.toggle('hidden',t!=='login');
+  document.getElementById('authErr').classList.add('hidden');
+}
+function authErr(msg){ const e=document.getElementById('authErr'); e.textContent=msg; e.classList.remove('hidden'); }
+function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500); }
+function speak(text){ if('speechSynthesis'in window){ const u=new SpeechSynthesisUtterance(text);
+  u.lang=state.user&&state.user.lang==='ar'?'ar-SA':'en-US'; speechSynthesis.speak(u);} }
+
+async function api(path,method='GET',body=null,auth=true){
+  const headers={'Content-Type':'application/json'};
+  if(auth&&state.token) headers['Authorization']='Bearer '+state.token;
+  const res=await fetch(API+path,{method,headers,body:body?JSON.stringify(body):null});
+  if(res.status===401&&state.refresh){ if(await tryRefresh()) return api(path,method,body,auth); }
+  const data=await res.json().catch(()=>({}));
+  if(!res.ok) throw new Error(data.detail||'Request failed');
+  return data;
+}
+async function tryRefresh(){
+  try{ const d=await api('/api/auth/refresh','POST',{refresh_token:state.refresh},false);
+    state.token=d.access_token; state.refresh=d.refresh_token; return true;
+  }catch{ logout(); return false; }
+}
+
+// ── Auth ───────────────────────────────────────────────────────
+async function doTrial(){
+  const name=tName.value.trim(),email=tEmail.value.trim(),child=tChild.value.trim(),age=+tAge.value;
+  if(!name||!email||!child){ authErr('Please fill all fields.'); return; }
+  try{
+    const d=await api('/api/auth/trial','POST',{full_name:name,email,child_name:child,child_age:age},false);
+    pinDisplay.textContent=d.pin; document.getElementById('pinBox').classList.remove('hidden');
+    document.getElementById('trialBtn').classList.add('hidden');
+    state._trialEmail=email; state._trialPin=d.pin;
+    speak('Welcome '+name+'. Your PIN is '+d.pin.split('').join(' '));
+  }catch(e){ authErr(e.message); }
+}
+async function enterApp(){
+  try{ await loginWith(state._trialEmail,state._trialPin); }catch(e){ authErr(e.message); }
+}
+async function doLogin(){
+  const email=lEmail.value.trim(),pin=lPin.value.trim();
+  if(!email||!pin){ authErr('Enter email and PIN.'); return; }
+  try{ await loginWith(email,pin); }catch(e){ authErr(e.message); }
+}
+async function loginWith(email,pin){
+  const d=await api('/api/auth/login','POST',{email,pin},false);
+  state.token=d.access_token; state.refresh=d.refresh_token; state.user=d.user;
+  updateNav(); await loadChildren(); show('dash');
+  document.getElementById('dashTitle').textContent='👶 '+state.user.full_name;
+}
+function logout(){ state.token=null; state.refresh=null; state.user=null; updateNav(); show('landing'); }
+function updateNav(){
+  navRight.innerHTML = state.user
+    ? `<button class="btn btn-ghost" onclick="logout()">Logout</button>`
+    : `<button class="btn btn-ghost" onclick="show('login')">Login</button>
+       <button class="btn" onclick="show('trial')">Free Trial</button>`;
+}
+
+// ── Children ───────────────────────────────────────────────────
+async function loadChildren(){
+  state.children=await api('/api/children');
+  const colors=['#7c3aed','#0d9488','#059669','#d97706','#dc2626'];
+  childList.innerHTML=state.children.map((c,i)=>`
+    <div class="card" style="margin-bottom:14px;">
+      <div class="child-card">
+        <div class="avatar" style="background:${colors[i%5]}">${c.name[0].toUpperCase()}</div>
+        <div><b style="font-size:16px;">${c.name}</b><br>
+          <span style="font-size:12px;color:#6b7280;">Age ${c.age} · ${c.total_sessions} sessions · ${c.total_score} pts</span></div>
+      </div>
+      ${skillRow('Motor',c.skill_motor)}${skillRow('Cognitive',c.skill_cognitive)}
+      ${skillRow('Verbal',c.skill_verbal)}${skillRow('Math',c.skill_math)}${skillRow('Social',c.skill_social)}
+      <button class="btn" style="width:100%;margin-top:10px;" onclick="startSession('${c.id}','${c.name}')">▶ Start Session</button>
+    </div>`).join('') || '<div class="card">No children yet. Click "+ Add Child".</div>';
+}
+function skillRow(n,v){ return `<div class="skill-row"><span style="width:70px;">${n}</span>
+  <div class="skill-bar"><div class="skill-fill" style="width:${v}%"></div></div>
+  <span style="width:34px;text-align:right;font-weight:700;color:var(--purple)">${Math.round(v)}%</span></div>`; }
+async function addChild(){
+  const name=prompt('Child name:'); if(!name) return;
+  const age=parseInt(prompt('Age:','6'))||6;
+  await api('/api/children','POST',{name,age,diagnosis:''}); await loadChildren(); toast('Child added!');
+}
+
+// ── Session ────────────────────────────────────────────────────
+async function startSession(childId,childName){
+  state.curChild=childId; state.score=0; state.correct=0; state.total=0; state.timer=0;
+  const s=await api('/api/sessions/start','POST',{child_id:childId,protocol:'ABA-DTT'});
+  state.session=s.id;
+  const t=await api('/api/sessions/tasks/generate','POST',{count:50,level:1});
+  state.tasks=t.tasks;
+  show('session');
+  state.timerInt=setInterval(()=>{ state.timer++; const m=Math.floor(state.timer/60),sec=state.timer%60;
+    sTimer.textContent=`⏱ ${m}:${String(sec).padStart(2,'0')}`; },1000);
+  speak('Session started for '+childName);
+  nextTask();
+}
+function nextTask(){
+  if(state.tasks.length<5){ /* lazy reload */ api('/api/sessions/tasks/generate','POST',{count:50,level:1})
+    .then(t=>state.tasks.push(...t.tasks)); }
+  state.curTask=state.tasks.shift(); state.total++;
+  sTask.textContent='📋 '+state.total;
+  taskEm.textContent=state.curTask.em||'🎯';
+  taskInstr.textContent=state.curTask.instruction;
+  const opts=state.curTask.options;
+  if(opts){ taskOpts.classList.remove('hidden'); taskBtns.classList.add('hidden');
+    taskOpts.innerHTML=opts.map((o,i)=>`<div class="opt" style="background:${o.color!=='transparent'?o.color:'rgba(139,92,246,.08)'}"
+      onclick="recordTask(${i===state.curTask.correct})">${o.em}<div class="ol">${o.label}</div></div>`).join('');
+  } else { taskOpts.classList.add('hidden'); taskBtns.classList.remove('hidden'); }
+  speak(state.curTask.instruction);
+}
+function recordTask(ok){
+  if(ok){ state.score+=state.curTask.tokens||1; state.correct++;
+    sScore.textContent='⭐ '+state.score; sCorrect.textContent='✅ '+state.correct;
+    speak(state.curTask.success); toast('✅ '+state.curTask.success);
+  } else { speak(state.curTask.fail); toast('Try again!'); }
+  setTimeout(nextTask,900);
+}
+async function endSession(){
+  clearInterval(state.timerInt);
+  await api('/api/sessions/end','POST',{session_id:state.session,duration_sec:state.timer,
+    score:state.score,tasks_total:state.total,tasks_success:state.correct,
+    tasks_fail:state.total-state.correct,tasks_mastered:Math.floor(state.correct/10),
+    avg_attention:75,dominant_emotion:'happy'});
+  toast(`Session complete! ⭐${state.score} ✅${state.correct}`);
+  await loadChildren(); show('dash');
+}
+updateNav();
+</script>
+</body>
+</html>

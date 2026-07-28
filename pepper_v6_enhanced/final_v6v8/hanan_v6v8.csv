@@ -1,0 +1,10 @@
+﻿Time,Child,Task,Domain,Protocol,Result,Score,Emotion,ConvLevel,Time_ms
+2026-06-05 14:47:53,hanan,touch_nose_54566,Motor,ABA-DTT,fail,0,neutral,1,0
+2026-06-05 14:48:15,hanan,food_rice_20064,Daily,TIE,success,20,neutral,1,17259
+2026-06-05 14:48:38,hanan,food_egg_10007,Daily,TIE,success,40,neutral,1,15666
+2026-06-05 14:49:09,hanan,arms_out_7975,Motor,ESDM,fail,40,neutral,1,0
+2026-06-05 14:49:17,hanan,food_soup_76686,Daily,TIE,success,60,neutral,1,4185
+2026-06-05 14:49:48,hanan,hands_up_85299,Motor,ABA-DTT,fail,60,neutral,1,0
+2026-06-05 14:50:20,hanan,food_milk_5032,Daily,TIE,fail,60,neutral,1,0
+2026-06-05 14:50:38,hanan,wave_88923,Motor,ESDM,success,70,neutral,1,13192
+2026-06-05 14:51:08,hanan,point_22750,Motor,ABA-DTT,fail,70,neutral,1,0

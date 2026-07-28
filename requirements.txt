@@ -1,0 +1,45 @@
+# ╔══════════════════════════════════════════════════════════════╗
+# ║  Pepper Clinical Infinity V6 — Python Dependencies         ║
+# ║  © 2026 Lamya Fadlulmola Hamed Ali                         ║
+# ╚══════════════════════════════════════════════════════════════╝
+
+# Core AI & Vision
+opencv-python-headless==4.9.0.80
+mediapipe==0.10.11
+tensorflow==2.15.0
+numpy>=1.24.0
+
+# Web Framework
+flask==3.0.3
+flask-session==0.8.0
+gunicorn==22.0.0
+werkzeug==3.0.3
+
+# AI & NLP
+google-generativeai>=0.5.0
+faster-whisper==1.0.0
+SpeechRecognition==3.10.4
+pyttsx3==2.90
+
+# Security & Auth
+bcrypt==4.1.3
+cryptography>=42.0.0
+pyotp==2.9.0
+
+# Reports & Data
+reportlab==4.2.2
+pandas>=2.0.0
+matplotlib>=3.8.0
+
+# Cython compilation
+cython>=3.0.0
+
+# Public tunnel (for testing/sharing)
+pyngrok>=7.0.0
+
+# Image processing
+Pillow>=10.3.0
+
+# Utilities
+python-dotenv==1.0.1
+requests>=2.31.0

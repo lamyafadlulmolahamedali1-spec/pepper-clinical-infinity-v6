@@ -1,0 +1,28 @@
+[
+  {
+    "timestamp": "2026-06-05T17:10:39.780212",
+    "child": "hani",
+    "age": 8,
+    "session_date": "2026-06-05",
+    "duration_min": 0,
+    "score": 0,
+    "tasks_mastered": 0,
+    "tasks_success": 0,
+    "tasks_fail": 0,
+    "tasks_skipped": 0,
+    "conv_level": 1,
+    "skill_motor": 50,
+    "skill_cognitive": 50,
+    "skill_verbal": 50,
+    "skill_math": 50,
+    "skill_social": 50,
+    "emotion": "sad",
+    "attention": 0,
+    "current_mood": null,
+    "pecs_log": [],
+    "mood_log": [],
+    "parent_notes": [],
+    "ai_exchanges": 0,
+    "owner_email": "lamyafadlulmolahamedali1@gmail.com"
+  }
+]

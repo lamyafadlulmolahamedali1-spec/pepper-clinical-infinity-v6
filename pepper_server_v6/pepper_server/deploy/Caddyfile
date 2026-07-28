@@ -1,0 +1,17 @@
+# Pepper Clinical V6 — Caddy reverse proxy (auto HTTPS via Let's Encrypt)
+yourdomain.com {
+    encode gzip zstd
+    # Security headers
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "DENY"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        -Server
+    }
+    # Rate limit at proxy level (optional plugin)
+    reverse_proxy 127.0.0.1:8000 {
+        health_uri /health
+        health_interval 30s
+    }
+}
